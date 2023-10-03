@@ -1,3 +1,4 @@
+import sample from 'lodash.sample';
 import express from 'express';
 import morgan from 'morgan';
 import nunjucks from 'nunjucks';
@@ -48,5 +49,28 @@ app.get('/hello', (req, res) => {
 // Handle the form from /hello and greet the user.
 app.get('/greet', (req, res) => {
   const name = req.query.name || 'stranger';
-  res.render('greet.html.njk', { name: name });
+  const compliment = sample(COMPLIMENTS);
+  res.render('greet.html.njk', { name: name, compliment: compliment });
 });
+
+// Yes or No
+app.get('/game', (req, res) => {
+  const input = req.query.play;
+
+  if (input === "yes") {
+    res.render('game.html.njk')
+  }else {
+    res.render('goodbye.html.njk')
+  }
+}); 
+
+// Madlibs
+app.get('/madlib', (req, res) => {
+  const color = req.query.color;
+  const noun = req.query.noun;
+  const person = req.query.person;
+  const adjective = req.query.adjective;
+  res.render('madlib.html.njk', { color: color, noun: noun, person: person, adjective: adjective });
+
+})
+
